@@ -23,3 +23,20 @@ jobs:
         with:
           name: pokemon-client-build
           path: dist
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Get artifacts from github
+        uses: actions/download-artifact@v4
+        with:
+          name: pokemon-client-build
+      - name: Upload to S3
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          source_dir: 'dist'
+          destination_dir: ''
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+          aws_bucket: ${{ secrets.SITE_BUCKET_NAME }}
