@@ -32,10 +32,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: pokemon-client-build
+          path: dist
       - name: Upload to S3
         uses: shallwefootball/s3-upload-action@master
         with:
-          source_dir: 'pokemon-client-build'
+          source_dir: 'dist'
           destination_dir: ''
           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
